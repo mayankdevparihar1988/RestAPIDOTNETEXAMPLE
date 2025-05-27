@@ -52,7 +52,28 @@ namespace Restaurants.Infrastructure.Repositories
             return restaurant;
         }
 
+        public async Task<bool?> Update(Restaurant entity, Restaurant newEntity)
+        {
+            var restaurant = _dbContext.Restaurants
+                .FirstOrDefault(x => x.Id == entity.Id);
 
+            if (restaurant is null)
+            {
+                return false;
+            }
+
+            restaurant.Name = newEntity.Name;
+            restaurant.Description = newEntity.Description;
+            restaurant.Category = newEntity.Category;
+            restaurant.HasDelivery = newEntity.HasDelivery;
+            restaurant.ContactEmail = newEntity.ContactEmail;
+            restaurant.ContactNumber = newEntity.ContactNumber;
+            restaurant.Address = newEntity.Address;
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+
+        }
     }
 
 }

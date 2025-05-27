@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
+using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace cleancodeprojectwebapi.Controllers
 {
@@ -17,7 +19,7 @@ namespace cleancodeprojectwebapi.Controllers
     [Route("api/restaurants")]
     public class RestaurantsController : ControllerBase
     {
-       // private readonly IRestaurantsService restaurantsService;
+        // private readonly IRestaurantsService restaurantsService;
         private readonly IValidator<CreateRestaurantCommand> _validator; // Corrected type to match the generic parameter
         private readonly IMediator _mediator;
 
@@ -75,10 +77,25 @@ namespace cleancodeprojectwebapi.Controllers
             {
                 return BadRequest(validationResult.ToDictionary()); // Fixed Results.ValidationProblem to ValidationProblem
             }
-             int id = await _mediator.Send(command);
+            int id = await _mediator.Send(command);
             return Ok(id);// Return the created restaurant's ID
         }
 
-      
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, [FromBody] UpdateRestaurantCommand command)
+        {
+            command.Id = id;
+            var isUpdated = await _mediator.Send(command);
+            if (isUpdated)
+                return Ok(true);
+
+            return NotFound();
+
+
+        }
     }
+
 }
+
+
+
