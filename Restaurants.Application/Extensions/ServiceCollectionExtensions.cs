@@ -3,7 +3,7 @@ using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Application.Restaurants;
-using Restaurants.Application.Restaurants.Validators;
+using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 
 namespace Restaurants.Application.Extensions
 {
@@ -18,8 +18,10 @@ namespace Restaurants.Application.Extensions
 
             // Ensure the correct FluentValidation package is referenced
             // AddFluentValidationAutoValidation is part of FluentValidation.AspNetCore
-            Services.AddValidatorsFromAssemblyContaining<CreateRestaurantDtoValidator>();
-               
+            Services.AddValidatorsFromAssemblyContaining<CreateRestaurantCommandValidator>();
+
+            Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
+
         }
     }
 }
