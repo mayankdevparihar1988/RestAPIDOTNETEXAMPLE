@@ -23,6 +23,22 @@ namespace Restaurants.Infrastructure.Repositories
         
         }
 
+        public async Task<Restaurant?> Delete(int id)
+        {
+            var restaurant = await _dbContext.Restaurants
+                .Include(r => r.Dishes)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (restaurant == null)
+            {
+                return null;
+            }
+
+            _dbContext.Restaurants.Remove(restaurant);
+            await _dbContext.SaveChangesAsync();
+            return restaurant; // Ensure a value is returned in all code paths
+        }
+
         public async Task<IEnumerable<Restaurant>> GetAllAsync()
         {
             return await _dbContext.Restaurants.ToListAsync();
