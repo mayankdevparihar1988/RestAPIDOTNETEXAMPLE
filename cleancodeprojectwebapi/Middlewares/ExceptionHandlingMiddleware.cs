@@ -17,7 +17,10 @@ namespace cleancodeprojectwebapi.Middlewares
         public async Task Invoke(HttpContext httpContext)
         {
             try
-            {
+            {   // Here we want control to be back to the next middleware in the pipeline
+                // This is where the actual request processing happens
+                // If an exception occurs, it will be caught by the catch block below
+                // You can also add pre-processing logic here if needed
                 await _next(httpContext);
             }
             catch (Exception ex)

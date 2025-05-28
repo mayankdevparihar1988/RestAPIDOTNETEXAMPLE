@@ -65,6 +65,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Custom Middleware for error handling
-app.UseExceptionHandlingMiddleware(); 
+app.UseExceptionHandlingMiddleware();
+
+app.UseRequestTimeLoggingMiddleware();
 
 app.Run();
