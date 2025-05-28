@@ -1,3 +1,4 @@
+using cleancodeprojectwebapi.Middlewares;
 using Restaurants.Application.Extensions;
 using Restaurants.Infrastructure.Extensions;
 using Restaurants.Infrastructure.Seeders;
@@ -40,9 +41,9 @@ var app = builder.Build();
 
 // Seeding 
 
-var scope= app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
-await seeder.Seed();
+//var scope = app.Services.CreateScope();
+//var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
+//await seeder.Seed();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,10 +56,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Custom Middleware for error handling
+app.UseExceptionHandlingMiddleware(); 
 
 app.Run();
