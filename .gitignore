@@ -2,7 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/webapi.sln
+#/webapi.sln
 ## Ignore Visual Studio temporary files, build results, and
 ## user-specific files.
 
@@ -56,7 +56,7 @@ project.fragment.lock.json
 *.log
 
 # Entity Framework
-Migrations/
+# Migrations/
 
 # Web output
 wwwroot/
