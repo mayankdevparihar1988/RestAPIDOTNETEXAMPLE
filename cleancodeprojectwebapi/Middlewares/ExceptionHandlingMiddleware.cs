@@ -23,7 +23,7 @@ namespace cleancodeprojectwebapi.Middlewares
                 // You can also add pre-processing logic here if needed
                 await _next(httpContext);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception (you can use a logging framework here)
                 // For example: _logger.LogError(ex, "An unhandled exception occurred.");

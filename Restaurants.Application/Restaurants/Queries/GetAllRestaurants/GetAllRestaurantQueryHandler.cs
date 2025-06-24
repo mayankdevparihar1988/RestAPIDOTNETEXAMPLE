@@ -10,6 +10,12 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
 {
+    // IRequest is a marker interface for MediatR (GetAllRestaurantQuery)
+    // It represents a request that can be handled by a handler
+    // In this case, it represents a query to get all restaurants
+    // and the response will be a collection of RestaurantDto objects
+    // The handler is GetAllRestaurantQueryHandler
+    // The handler implements IRequestHandler<GetAllRestaurantQuery, IEnumerable<RestaurantDto>>
     public class GetAllRestaurantQueryHandler : IRequestHandler<GetAllRestaurantQuery, IEnumerable<RestaurantDto>>
     {
         private readonly IRestaurantsRepository _restaurantsRepository;

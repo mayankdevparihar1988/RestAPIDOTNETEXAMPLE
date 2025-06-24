@@ -8,6 +8,7 @@ using Restaurants.Domain.Entities;
 
 namespace Restaurants.Application.Restaurants.Dtos
 {
+    // Output dto
     public class RestaurantDto
     {
         public int Id { get; set; }

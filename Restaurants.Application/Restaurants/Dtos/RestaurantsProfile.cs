@@ -27,6 +27,8 @@ namespace Restaurants.Application.Restaurants.Dtos
                     Street = src.Street
                 }));
 
+            // Here we map the Restaurant entity to the RestaurantDto
+            // and we also map the Address properties to the RestaurantDto properties
             CreateMap<Restaurant, RestaurantDto>()
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address == null ? null : src.Address.City))
                 .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address == null ? null : src.Address.Street))

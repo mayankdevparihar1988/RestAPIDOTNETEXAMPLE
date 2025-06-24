@@ -9,6 +9,7 @@ namespace Restaurants.Application.Restaurants.Dtos
 {
     public class CreateRestaurantDto
     {
+        // Input DTO
         //[StringLength(100, MinimumLength = 3)]
         public string Name { get; set; } = default!;
         public string Description { get; set; } = default!;
