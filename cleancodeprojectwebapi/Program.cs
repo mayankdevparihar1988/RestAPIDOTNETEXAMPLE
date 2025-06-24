@@ -41,9 +41,9 @@ var app = builder.Build();
 
 // Seeding 
 
-//var scope = app.Services.CreateScope();
-//var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
-//await seeder.Seed();
+var scope = app.Services.CreateScope();
+var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
+await seeder.Seed();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
