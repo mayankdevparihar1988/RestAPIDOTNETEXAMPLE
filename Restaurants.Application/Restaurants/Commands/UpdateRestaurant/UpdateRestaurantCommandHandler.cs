@@ -14,7 +14,7 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
     public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCommand, bool>
     {
 
-        private readonly ILogger<CreateRestaurantCommandHandler> _logger;
+        private readonly ILogger<UpdateRestaurantCommandHandler> _logger;
 
         private readonly IRestaurantsRepository _restaurantsRepository;
 
@@ -24,7 +24,7 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
 
 
 
-        public UpdateRestaurantCommandHandler(IRestaurantsRepository restaurantsRepository, ILogger<CreateRestaurantCommandHandler> logger, IMapper mapper)
+        public UpdateRestaurantCommandHandler(IRestaurantsRepository restaurantsRepository, ILogger<UpdateRestaurantCommandHandler> logger, IMapper mapper)
         {
             _restaurantsRepository = restaurantsRepository ?? throw new ArgumentNullException(nameof(restaurantsRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
