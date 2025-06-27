@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
@@ -23,9 +24,24 @@ namespace Restaurants.Infrastructure.Repositories
             return dish.Id;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int restaurantId, int dishId)
         {
-            throw new NotImplementedException();
+            if (restaurantId == 0 || dishId == 0)
+            {
+                throw new ArgumentException("Restaurant ID and Dish ID must be non-zero.");
+            }
+
+            var dish = await restaurantsDbContext.Dishes
+                .FirstOrDefaultAsync(d => d.RestaurantId == restaurantId && d.Id == dishId);
+
+            if (dish == null)
+            {
+                throw new InvalidOperationException($"Dish with ID {dishId} for Restaurant {restaurantId} not found.");
+            }
+
+            restaurantsDbContext.Dishes.Remove(dish);
+            await restaurantsDbContext.SaveChangesAsync();
+            logger.LogInformation($"Dish with ID {dishId} for Restaurant {restaurantId} deleted successfully.");
         }
 
         public Task<IEnumerable<Dish>> GetAllAsync()
@@ -33,9 +49,15 @@ namespace Restaurants.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Dish?> GetByIdAsync(int id)
+        public async Task<Dish?> GetByIdAsync(int restaurentId, int dishId)
         {
-            throw new NotImplementedException();
+            if (restaurentId == 0 || dishId == 0)
+            {
+                throw new ArgumentException("Restaurant ID and Dish ID must be non-zero.");
+            }
+
+            return await restaurantsDbContext.Dishes
+                .FirstOrDefaultAsync(d => d.RestaurantId == restaurentId && d.Id == dishId);
         }
 
         public Task<IEnumerable<Dish>> GetByRestaurantIdAsync(int restaurantId)

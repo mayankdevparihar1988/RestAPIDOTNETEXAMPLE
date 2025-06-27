@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dishes.Commands.CreateDish;
+using Restaurants.Application.Dishes.Commands.DeleteDish;
 using Restaurants.Application.Dishes.Dtos;
 using Restaurants.Application.Dishes.Queries;
+using Restaurants.Application.Dishes.Queries.GetDishById;
 
 namespace cleancodeprojectwebapi.Controllers
 {
@@ -13,13 +15,13 @@ namespace cleancodeprojectwebapi.Controllers
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateDish([FromRoute] int restaurantId,[FromBody] CreateDishCommand command)
+        public async Task<IActionResult> CreateDish([FromRoute] int restaurantId, [FromBody] CreateDishCommand command)
         {
-            
+
 
             command.RestaurantId = restaurantId;
 
-            if (restaurantId==0)
+            if (restaurantId == 0)
             {
                 return BadRequest("Restaurant ID in the route does not match the Restaurant ID in the command.");
             }
@@ -33,10 +35,32 @@ namespace cleancodeprojectwebapi.Controllers
         {
 
 
-           var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));
+            var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));
 
             return Ok(dishes);
 
         }
+
+        [HttpGet("{dishId}")]
+        public async Task<ActionResult<DishDto>> GetDishById([FromRoute] int restaurantId, [FromRoute] int dishId)
+        {
+            var dish = await mediator.Send(new GetDishByIdQuery(restaurantId, dishId));
+            if (dish == null)
+            {
+                return NotFound($"Dish with ID {dishId} not found for restaurant with ID {restaurantId}.");
+            }
+            return Ok(dish);
+        }
+
+        [HttpDelete("{dishId}")]
+        public async Task<ActionResult<bool>> DeleteDish([FromRoute] int restaurantId, [FromRoute] int dishId)
+        { 
+
+            var isDeleted = await mediator.Send( new DeleteDishCommand(restaurantId,dishId));
+
+            return Ok(isDeleted);
+        
+        }
+
     }
 }
